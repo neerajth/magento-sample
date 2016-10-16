@@ -1,0 +1,63 @@
+<!-- Slider part -->
+<link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/moveu/font-awesome/css/font-awesome.min.css');?>">
+<link rel="stylesheet" href="<?php echo $this->getSkinUrl('js/moveu/slider-files/responsiveslides.css');?>">
+
+<link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/moveu/moveu_styles.css');?>">
+<link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/moveu/webflow.css');?>">
+<link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/moveu/move-u.webflow.css');?>">
+<link rel="stylesheet" href="<?php echo $this->getSkinUrl('js/moveu/slider-files/themes.css');?>">
+<script src="<?php echo $this->getSkinUrl('js/moveu/slider-files/jquery.js');?>"></script>
+<script src="<?php echo $this->getSkinUrl('js/moveu/slider-files/responsiveslides.js');?>"></script>
+<script src="<?php echo $this->getSkinUrl('js/moveu/webflow.js');?>"></script>
+<script>jQuery.noConflict();</script>
+<script>
+jQuery(function () {
+// Slideshow 1
+jQuery("#slider1").responsiveSlides({
+auto: true,
+pager: true,
+nav: true,
+speed: 400,
+minheight: 300,
+namespace: "centered-btns"
+});
+});
+</script>
+<!--<div class="rslides_container">
+	<ul class="rslides centered-btns centered-btns1" id="slider1">
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('moveu-mobile-slider')->toHtml(); ?>
+	</ul>
+</div>	-->
+<!-- slider -->
+<!--<div class="w-section">
+    <div data-animation="slide" data-duration="500" class="w-slider mu_home_slider">
+      <div class="w-slider-mask">
+        <div class="w-slide mu_slider mu_sliderimg1">
+          <div class="w-container">
+            <h1 class="mu_h1 mu_mbwhite">CUSTOMIZABLE ATHLETIC APPAREL</h1>
+            <p class="w-hidden-small w-hidden-tiny mu_p">Take your team look to the next level in customizable dye-sublimated apparel.</p><a href="https://moveu.us/shop.html" class="w-preserve-3d w-button mu_bt_style1 mu_mbwhite">SHOP NOW</a>
+          </div>
+        </div>
+        <div class="w-slide mu_slider mu_sliderimg2">
+          <div class="w-container">
+            <h1 class="mu_h1 mu_whitefont">DARE TO STAND OUT</h1>
+            <p class="w-hidden-small w-hidden-tiny mu_p mu_whitefont">Stand proud. Stand strong. Stand OUT! Go bold in customizable gear from Move U.</p>
+          </div><a href="https://moveu.us/shop/cheerleading.html" class="w-preserve-3d w-button mu_bt_style1 mu_white">SHOP CHEER</a>
+        </div>
+        <div class="w-slide mu_slider mu_sliderimg3">
+          <div class="w-container">
+            <h1 class="mu_h1 mu_mbwhite">NOTHING IS OUT OF REACH</h1>
+            <p class="w-hidden-small w-hidden-tiny mu_p">Build a strong routine in the right gear. Start customizing for your team today.</p>
+          </div><a href="https://moveu.us/shop/dance.html" class="w-preserve-3d w-button mu_bt_style1 mu_mbwhite">SHOP DANCE</a>
+        </div>
+      </div>
+      <div class="w-slider-arrow-left">
+        <div class="w-icon-slider-left"></div>
+      </div>
+      <div class="w-slider-arrow-right">
+        <div class="w-icon-slider-right"></div>
+      </div>
+      <div class="w-slider-nav w-slider-nav-invert w-round mu_slidenav"></div>
+    </div>
+  </div>-->
+<!-- slider -->

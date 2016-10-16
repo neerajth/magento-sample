@@ -1,0 +1,81 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_iphone
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<footer class="footer-section">
+	<div class="container">
+		<div class="flogo">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('moveu_footer_logo')->toHtml() ?>
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('moveu_footer_socialicons')->toHtml() ?>
+	</div>
+	<div class="f-links">
+		<!--
+		<ul>
+			<?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('moveu_footer_policies')->toHtml() ?>
+			<li>
+				<?php// $_helper = Mage::helper('catalog/category') ?>
+				<?php //$_categories = $_helper->getStoreCategories() ?>
+				<?php //if (count($_categories) > 0): ?>
+					<?php //foreach($_categories as $_category): ?>
+						<a href="<?php //echo $_helper->getCategoryUrl($_category) ?>">
+							<h3><?php //echo $_category->getName() ?></h3>
+						</a>
+						<?php //$_category = Mage::getModel('catalog/category')->load($_category->getId()) ?>
+						<?php //$_subcategories = $_category->getChildrenCategories() ?>
+						<?php //if (count($_subcategories) > 0): ?>
+							<?php //foreach($_subcategories as $_subcategory): ?>
+								<?php //$_subcategory = Mage::getModel('catalog/category')->load($_subcategory->getId()) ?>
+								<?php //$_subsubcategories = $_subcategory->getChildrenCategories() ?>
+								<?php //if (count($_subsubcategories) > 0): ?>
+									<?php //foreach($_subsubcategories as $_subsubcategory): ?>
+										
+											<a href="<?php //echo $_helper->getCategoryUrl($_subsubcategory) ?>">
+												<?php //echo $_subsubcategory->getName() ?>
+											</a>
+										
+									<?php //endforeach; ?>
+									<?php //else: ?>		
+											<a href="<?php //echo $_helper->getCategoryUrl($_subcategory) ?>">
+												<?php //echo $_subcategory->getName() ?>
+											</a>
+								<?php //endif; ?>
+							<?php //endforeach; ?>
+						<?php //endif; ?>
+					<?php //endforeach; ?>
+				<?php //endif; ?>
+			</li>
+			<?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('moveu_footer_services')->toHtml() ?>
+		</ul>
+		-->
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('moveu_mobile_footer')->toHtml() ?>
+	</div>
+	<div class="sign-up">
+		<?php echo $this->getChildHtml('footer.newsletter') ?>
+		<div class="teehive">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('moveu_footer_image')->toHtml() ?>
+		</div>
+	</div>   
+</div>
+</footer>

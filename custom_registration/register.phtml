@@ -1,0 +1,462 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Create account form template
+ *
+ * @see Mage_Customer_Block_Form_Register
+ */
+?>
+<div class="main_shadow" style="float:right;">
+	<div class="shadow_top"></div>
+	<div class="shadow_middle"></div>
+	<div class="shadow_bottom"></div>
+</div>
+<div class="content" style="margin-top:20px; height:auto">
+	<div class="account-create">	
+		<h2 class="content_heading"><?php echo $this->__('New Customer') ?></h2>
+		<?php echo $this->getChildHtml('form_fields_before')?>
+		<?php /* echo $this->getMessagesBlock()->getGroupedHtml() */ ?>
+		<form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="register-form" class="scaffold-form" enctype="multipart/form-data">
+			<div class="">
+				<input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>" />
+				<input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>" />
+				<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+				<div class = "col-sm-12">					
+					<div class="col-sm-6">
+						<h2 class="title"><?php echo $this->__('Personal Information') ?></h2>
+						<ul class="form-list">
+				
+							<li class="fields">
+								<?php  echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getFormData())->toHtml()  ?>
+							</li>
+							<li class="fields">
+								<div class="field">
+									<label for="company" class="reg_comp required"><em>*</em><?php echo $this->__('Company') ?></label>
+									<div class="input-box">
+										<input type="text" name="company" id="company" value="<?php echo $this->htmlEscape($this->getFormData()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text required-entry"  onblur="document.getElementById('company_rep').innerHTML =this.value;" />
+									</div>
+								</div>
+							</li>
+							<li class="fields">
+								<div class="field">
+								<label for="email_address" class="reg-email required"><em>*</em><?php echo $this->__('E-mail') ?></label>
+								<div class="input-box">
+									<input type="text" name="email" id="email_address" value="<?php echo $this->htmlEscape($this->getFormData()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
+								</div>
+								</div>
+							</li>
+							
+							<li class="fields">
+								<div class="field">
+									<label for="telephone" class="reg-phone required"><em>*</em><?php echo $this->__('Phone') ?></label>
+									<div class="input-box">
+										<input type="text" name="telephone" id="telephone" value="<?php echo $this->htmlEscape($this->getFormData()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text required-entry" />
+									</div>
+								</div>
+							</li>
+							<?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
+							<?php if ($_dob->isEnabled()): ?>
+								<li><?php echo $_dob->setDate($this->getFormData()->getDob())->toHtml() ?></li>
+							<?php endif ?>
+							<?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
+							<?php if ($_taxvat->isEnabled()): ?>
+									<li class="fields" id="taxvat_li">
+										<div class="field">
+										<?php echo $_taxvat->setTaxvat($this->getFormData()->getTaxvat())->toHtml() ?>
+										</div>
+									</li>
+							<?php endif ?>
+							<input type="hidden" name="create_address" value="1" />
+							<li class="fields">
+								<div class="field">
+								<label for="street_1" class="reg-add-1 required"><em>*</em><?php echo $this->__('Address 1') ?></label>
+								<div class="input-box">
+									<input type="text" name="street[]" value="<?php echo $this->htmlEscape($this->getFormData()->getStreet(1)) ?>" title="<?php echo $this->__('Street Address') ?>" id="street_1" class="input-text required-entry" />
+								</div>
+								</div>
+							</li>
+						<?php for ($_i=2, $_n=$this->helper('customer/address')->getStreetLines(); $_i<=$_n; $_i++): ?>
+							<li class="fields">
+								<div class="field">
+								<label for="street_1" class="reg-add-2"><?php echo $this->__('Address 2') ?></label>
+								<div class="input-box">
+									<input type="text" name="street[]" value="<?php echo $this->htmlEscape($this->getFormData()->getStreet($_i)) ?>" title="<?php echo $this->__('Street Address %s', $_i) ?>" id="street_<?php echo $_i?>" class="input-text" />
+								</div>
+								</div>
+							</li>
+						<?php endfor ?>
+							
+							
+						<?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
+						<?php if ($_gender->isEnabled()): ?>
+							<li><?php echo $_gender->setGender($this->getFormData()->getGender())->toHtml() ?></li>
+						<?php endif ?>
+						
+							<li class="fields">
+								<div class="field">
+									<label for="city" class="reg-city required"><em>*</em><?php echo $this->__('City') ?></label>
+									<div class="input-box">
+										<input type="text" name="city" value="<?php echo $this->htmlEscape($this->getFormData()->getCity()) ?>" title="<?php echo $this->__('City') ?>" class="input-text required-entry" id="city" />
+									</div>
+								</div>
+							</li>
+							<li class="fields">
+								<div class="field">
+									<label for="region_id" class="reg_state required"><em>*</em><?php echo $this->__('State') ?></label>
+									<div class="input-box state_select">
+										<select id="region_id" name="region_id" title="<?php echo $this->__('State') ?>" class="validate-select">
+											<option value=""><?php echo $this->__('Select One') ?></option>
+										</select>
+										<script type="text/javascript">
+										//<![CDATA[
+											$('region_id').setAttribute('defaultValue', "<?php echo $this->getFormData()->getRegionId() ?>");
+										//]]>
+										</script>
+										<!-- <input type="text" id="region" name="region" value="<?php echo $this->htmlEscape($this->getRegion()) ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text" /> -->
+									</div>
+								</div>
+							</li>
+							<li class="fields">
+								<div class="field">
+									<label for="zip" class="reg-zip required"><em>*</em><?php echo $this->__('Zip') ?></label>
+									<div class="input-box">
+										<input type="text" name="postcode" value="<?php echo $this->htmlEscape($this->getFormData()->getPostcode()) ?>" title="<?php echo $this->__('Zip/Postal Code') ?>" id="zip" class="input-text validate-zip-international required-entry" />
+									</div>
+								</div>
+							</li>
+							<li class="fields">
+								<div class="field">
+									<label for="country" class="reg-country required"><em>*</em><?php echo $this->__('Country') ?></label>
+									<div class="input-box country_select">
+										<?php echo $this->getCountryHtmlSelect() ?>
+									</div>
+								</div>
+							</li>
+							
+						<input type="hidden" name="default_billing" value="1" />
+						<input type="hidden" name="default_shipping" value="1" />
+						
+							<li class="fields">
+								<div class="field">
+									<label for="password" class="reg-password-1 required"><em>*</em><?php echo $this->__('Password') ?></label>
+									<div class="input-box">
+										<input type="password" name="password" id="password" title="<?php echo $this->__('Password') ?>" class="input-text required-entry validate-password" />
+									</div>
+								</div>
+							</li>
+							
+							<li class="fields">	
+								<div class="field">
+									<label for="confirmation" class="reg-password-2 required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
+									<div class="input-box">
+										<input type="password" name="confirmation" title="<?php echo $this->__('Re-enter Password') ?>" id="confirmation" class="input-text required-entry validate-cpassword" />
+									</div>
+								</div>
+							</li>
+							<li class="fields" id="resale_certificate_li">
+								<div class="field">
+									 <label for="resale_certificate" class="reg_comp required"><em>*</em><?php echo $this->__('Resale Certificate') ?></label>
+									<div class="input-box">
+										 <input type="file" name="resale_certificate" id="resale_certificate" title="<?php echo $this->__('Resale Certificate') ?>" class="input-text required-entry" onchange="document.getElementById('resale_certificate_file').value='<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>files/'+cleanFileName(this.value);"/>
+									</div>
+								</div>
+							</li>
+							<li class="fields">
+								<div class="field">
+									<label for="group_id" class="reg_comp required"><em>*</em><?php echo $this->__('Type') ?></label>
+									<div class="input-box state_select">
+										<?php $groups = Mage::helper('customer')->getGroups()->toOptionArray(); ?>
+										<?php if (count($groups) > 0): ?>
+											<select id="group_id" name="group_id" title="<?php echo $this->__('Type') ?>" class="validate-select"  onchange="displayTypeFields(this.value);">
+												<option value=""><?php echo $this->__('Select One') ?></option>
+												<?php foreach($groups as $group): ?>
+												<?php if ($group['value']<=10): //only first 6 are available for customer to select ?>	
+													<?php if($group['value'] ==7 || $group['value'] ==9){ continue; }?>
+														<option value="<?php echo $group['value'] ?>">
+															<?php echo $group['label'] ?>
+														</option>
+												<?php endif ?>
+												<?php endforeach; ?>
+											</select>
+										<?php endif; ?>						
+									</div>						
+								</div>
+							</li>
+							<li class="fields" id="store_photo_li">
+								<div class="field">
+									<label for="store_photo" class="reg_comp required"><em>*</em><?php echo $this->__('Store Photo') ?></label>
+									<div class="input-box">
+										 <input type="file" name="store_photo" id="store_photo" title="<?php echo $this->__('Store Photo') ?>" class="input-text required-entry" onchange="document.getElementById('store_photo_file').value='<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>files/'+cleanFileName(this.value);"/>			
+									</div>
+								</div>
+							</li>				
+							<li class="fields" id="business_card_li">
+								<div class="field">
+									<label for="business_card" class="reg_comp required"><em>*</em><?php echo $this->__('Business Card') ?></label>
+									<div class="input-box">
+										 <input type="file" name="business_card" id="business_card" title="<?php echo $this->__('Business Card') ?>" class="input-text required-entry" onchange="document.getElementById('business_card_file').value='<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>files/'+cleanFileName(this.value);"/>			
+									</div>
+								</div>
+							</li>
+							<li class="fields" id="cust_type_other_disp_li">
+								<div class="field">
+									<label for="cust_type_other_disp" class="reg_comp required"><em>*</em><?php echo $this->__('Please Specify') ?></label>
+									<div class="input-box">
+										 <input type="text" name="cust_type_other_disp" id="cust_type_other_disp" class="input-text required-entry" onblur="document.getElementById('cust_type_other').value=this.value;"/>
+									</div>
+								</div>
+							</li>				
+
+						<?php if ($this->isNewsletterEnabled()): ?>
+						  <!--  <li class="opt-in control">
+									<input type="radio" name="is_subscribed" title="<?php echo $this->__('Opt-in to our e-mail list.') ?>" value="1" id="is_subscribed"<?php if($this->getFormData()->getIsSubscribed()): ?> checked="checked"<?php endif; ?> class="checkbox" />           
+								<label for="is_subscribed"><?php echo $this->__('Opt-in to our email list.') ?></label>
+							</li> -->
+						<?php endif ?>
+						
+						</ul>
+					</div>	
+					<div class="col-sm-6">
+						<h2 class="title"><?php echo $this->__('Location Verification') ?></h2>
+					
+						<ul class="form-list">
+							<li class="fields">
+								<div class="field">
+									<label for="business_name" class="reg-business_name required"><em>*</em><?php echo $this->__('Business Name') ?></label>
+									<div class="input-box">
+										<input type="text" class=" required-entry input-text required-entry" value="" name="amcustomerattr[business_name]" id="business_name">
+									</div>
+								</div>
+							</li>
+							
+							<li class="fields">
+								<div class="field">
+									<label for="contact_name" class="reg-contact_name required"><em>*</em><?php echo $this->__('Business Contact Name') ?></label>
+									<div class="input-box">
+										<input type="text" class="required-entry input-text required-entry" value="" name="amcustomerattr[contact_name]" id="contact_name">
+									</div>
+								</div>
+							</li>
+							
+							
+							<li class="fields">
+								<div class="field">
+									<label for="street_address" class="reg-street_address required"><em>*</em><?php echo $this->__('Business Adreess') ?></label>
+									<div class="input-box">
+										<input type="text" class=" required-entry input-text required-entry" value="" name="amcustomerattr[street_address]" id="street_address">
+									</div>
+								</div>
+							</li>
+							
+							
+							<li class="fields">
+								<div class="field">
+									<label for="business_city" class="reg-business_city required"><em>*</em><?php echo $this->__('Business City') ?></label>
+									<div class="input-box">						
+										<input type="text" class=" required-entry input-text required-entry" value="" name="amcustomerattr[business_city]" id="business_city">
+									</div>
+								</div>
+							</li>
+							
+							<li class="fields">
+								<div class="field">
+									<label for="business_state" class="reg-business_state required"><em>*</em><?php echo $this->__('Business State') ?></label>
+									<div class="input-box">						
+										<input type="text" class=" required-entry input-text required-entry" value="" name="amcustomerattr[business_state]" id="business_state">
+									</div>
+								</div>
+							</li>
+							<li class="fields">
+								<div class="field">
+									<label for="business_zipcode" class="reg-business_zipcode required"><em>*</em><?php echo $this->__('Business Zip Code') ?></label>
+									<div class="input-box">						
+										<input type="text" class=" required-entry input-text required-entry" value="" name="amcustomerattr[business_zipcode]" id="business_zipcode">
+									</div>
+								</div>
+							</li>
+							
+							<li class="fields">
+								<div class="field">
+									<label for="business_website" class="reg-business_website required"><em>*</em><?php echo $this->__('Business Website') ?></label>
+									<div class="input-box">
+										<input type="text" class="required-entry input-text required-entry" value="" name="amcustomerattr[business_website]" id="business_website">
+									</div>
+								</div>
+							</li>
+						</ul>
+						<h2 class="title"><?php echo $this->__('Other Information') ?></h2>					
+						<ul class="form-list">
+							<li class="fields">
+								<div class="field">
+									<label for="email_buyer" class="reg-email_buyer required"><em>*</em><?php echo $this->__('Email(Buyer)') ?></label>
+									<div class="input-box">						
+										<input type="text" class=" required-entry input-text required-entry" value="" name="amcustomerattr[email_buyer]" id="email_buyer">
+									</div>
+								</div>
+							</li>
+							<li class="fields">
+								<div class="field">
+									<label for="email_payables" class="reg-email_payables required"><em>*</em><?php echo $this->__('Email(Payables)') ?></label>
+									<div class="input-box">						
+										<input type="text" class=" required-entry input-text required-entry" value="" name="amcustomerattr[email_payables]" id="email_payables">
+									</div>
+								</div>
+							</li>
+							<li class="fields">
+								<div class="field">
+									<label for="agh_rep" class="reg-agh_rep "><?php echo $this->__('AGH REP') ?></label>
+									<div class="input-box">						
+										<input type="text" class="input-text" value="" name="amcustomerattr[agh_rep]" id="agh_rep">
+									</div>
+								</div>
+							</li>
+							<li class="fields">
+								<div class="field">
+									<label for="rep_group" class="reg-city "><?php echo $this->__('REP GROUP') ?></label>
+									<div class="input-box">						
+										<input type="text" class="input-text" value="" name="amcustomerattr[rep_group]" id="rep_group">
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>				
+			</div>
+			
+			<div style="display:none"><?php //echo Mage::helper('amcustomerattr')->fields(); ?>
+				<input id="business_card_file" class=" input-text" type="text" value="" name="amcustomerattr[business_card_file]">
+				<input id="cust_type_other" class=" input-text" type="text" value="" name="amcustomerattr[cust_type_other]">
+				<input id="resale_certificate_file" class=" input-text" type="text" value="" name="amcustomerattr[resale_certificate_file]">
+				<input id="store_photo_file" class=" input-text" type="text" value="" name="amcustomerattr[store_photo_file]">
+			
+			
+			</div>
+			<div class = "col-sm-12 accept">	
+				<div class = "col-sm-12">A representative of  <strong><span id="company_rep"></span></strong>  , I do acknowledge that have received the New Customer Package and have read it and understand the terms and conditions of how i will work with Aidan Gray.
+				</div>
+				<div class = "col-sm-12">
+				<input type="checkbox" name="accept1" id="accept1"  class=" required-entry input-text required-entry" /><label for="accept1">I understand that i am invoiced 1 to 5 days in advance of shipment.</label>
+				</div>
+				<div class = "col-sm-12">
+				<input type="checkbox" name="accept1" id="accept2"  class=" required-entry input-text required-entry" /><label for="accept1">I understand all costs associated with shipping and how it will be applied to my order.</label>
+				</div>
+				<div class = "col-sm-12">
+				<input type="checkbox" name="accept1" id="accept3"  class=" required-entry input-text required-entry" /><label for="accept1">I understand that for my protection, that if i cancel an order, I must receive a cancellation number from Aidan Gray.</label>
+				</div>
+				<div class = "col-sm-12">
+				<input type="checkbox" name="accept1" id="accept4"  class=" required-entry input-text required-entry" /><label for="accept1">I understand that distinct look and feel of Aidan Gray and understand that the product is not meant to look new and in fact that is designed to resemble found objets and architectural antiques. It will not be perfect.</label>
+				</div>
+				<div class = "col-sm-12">
+				<input type="checkbox" name="accept1" id="accept5"  class=" required-entry input-text required-entry" /><label for="accept1">I understand that all products received UPS must be inspected within 5 days of receipt. Failure to do so will result in a loss.</label>
+				</div>
+				<div class = "col-sm-12">
+				<input type="checkbox" name="accept1" id="accept6"  class=" required-entry input-text required-entry" /><label for="accept1">I understand that all products received via freight that may be damaged must be noted on the B.O.L. at the time od delivery. If something does not look right, I will note it on the bill or call immediately before the driver leaves our premises.</label>
+				</div>
+				<div class = "col-sm-12">
+				<input type="checkbox" name="accept1" id="accept7"  class=" required-entry input-text required-entry" /><label for="accept1">I understand that Aidan Gray accepts Visa, Master Card, Discover and American Express and that credit cards must be either the company's card or the primary buyer/owner. I also acknowledge that Aidan Gray does not accept third party/customer's credit cards.</label>
+				</div>
+				<div class = "col-sm-12">
+				<input type="checkbox" name="accept1" id="accept8"  class=" required-entry input-text required-entry" /><label for="accept1">I understand that Aidan Gray highly discourages the use of Debit Cards. By using such cards as a form of payment, I assume all risk and all fees, withdraws and overdrafts associated with the use of the card. I also acknowledge Aidan Gray will not accept any liability and will process all orders just like standard credit cards.</label>
+				</div>
+				<div class = "col-sm-12">
+				<input type="checkbox" name="accept1" id="accept9"  class=" required-entry input-text required-entry" /><label for="accept1">I understand that that Aidan Gray cannot call before shipping or billing.</label>
+				</div>
+			</div>
+			<div class="buttons-set">
+				<p class="required"><?php echo $this->__('*Required Fields') ?></p>				
+				<button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Create an Account') ?></span></span></button>
+			</div>
+		</form>
+		<script type="text/javascript">
+		//<![CDATA[
+			var dataForm3 = new VarienForm('register-form', true);
+			<?php /* if($this->getShowAddressFields()): */?>
+			new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'zip'); 
+			<?php /* endif; */ ?>
+		//]]>
+		</script>
+		<script type="text/javascript">
+			displayTypeFields();
+			//clear fields on page load
+			document.getElementById("cust_type_other").value = document.getElementById("cust_type_other_disp").value;
+			document.getElementById("resale_certificate_file").value = '';
+			document.getElementById("business_card_file").value = '';
+			document.getElementById("store_photo_file").value = '';
+			function displayTypeFields(val){
+				switch(val){
+				case "1": // Retailer
+					document.getElementById("store_photo_li").show();
+					document.getElementById("business_card_li").hide();
+					document.getElementById("cust_type_other_disp_li").hide();
+					//clearFileInput(document.getElementById("business_card"));
+				break;		
+				case "3": // ASID Interior Designer
+					document.getElementById("store_photo_li").hide();
+					document.getElementById("business_card_li").show();
+					document.getElementById("cust_type_other_disp_li").hide();
+					//clearFileInput(document.getElementById("store_photo"));			
+				break;
+				case "6": //Other
+					document.getElementById("store_photo_li").hide();
+					document.getElementById("business_card_li").hide();
+					document.getElementById("cust_type_other_disp_li").show();
+					//clearFileInput(document.getElementById("store_photo"));			
+					//clearFileInput(document.getElementById("business_card"));			
+				break;
+				default:
+					document.getElementById("store_photo_li").hide();
+					document.getElementById("cust_type_other_disp_li").hide();
+					document.getElementById("business_card_li").hide();
+					//clearFileInput(document.getElementById("store_photo"));			
+					//clearFileInput(document.getElementById("business_card"));
+				}	
+			}
+			
+			function cleanFileName(val){
+				var filename = val;
+				var lastIndex = filename.lastIndexOf("\\");
+				if (lastIndex >= 0) {
+					filename = filename.substring(lastIndex + 1);
+				}				
+				return filename;
+			}
+			function clearFileInput(oldInput){
+				var newInput = document.createElement("input");
+				newInput.type = "file";
+				newInput.id = oldInput.id;
+				newInput.name = oldInput.name;
+				newInput.className = oldInput.className;
+				newInput.style.cssText = oldInput.style.cssText;
+				// copy any other relevant attributes  
+				oldInput.parentNode.replaceChild(newInput, oldInput);
+			}	
+				//]]>
+		
+		</script>		
+	</div>
+</div>

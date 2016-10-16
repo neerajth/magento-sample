@@ -3,11 +3,7 @@ This is an example of magento 1.8 custom design template for moveu.us website. T
 Technologies used:
 
 -magento 1.8
-
 -mysql
-
 -jQuery
-
 -bootstrap
-
 -AJAX
